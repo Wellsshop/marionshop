@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MarionShop | Relojes, Carteras, Billeteras y Lentes</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%2322031b%27/%3E%3Ctext x=%2732%27 y=%2744%27 font-size=%2738%27 text-anchor=%27middle%27 fill=%27%23e8c98a%27 font-family=%27Georgia,serif%27%3EM%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#2a0421">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#22031b;--panel:#32082a;--line:rgba(232,201,138,.22);--text:#fff1f7;--muted:#d9afc9;--gold:#e8c98a;--lilac:#cfa6e6;--fucsia:#d11a8a;--serif:'Bodoni Moda','Playfair Display',Georgia,serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;font-weight:300}
+a{color:inherit;text-decoration:none}
+[hidden]{display:none!important}
+header{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;background:rgba(34,3,27,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.logo{font-family:var(--serif);font-size:1.7rem;letter-spacing:.35em;background:linear-gradient(180deg,#fbeab8 0%,#e2b867 50%,#a97a2d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-left:.35em}
+nav a{margin-left:28px;font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+nav a:hover{color:var(--gold)}
+:focus-visible{outline:2px solid var(--lilac);outline-offset:3px}
+/* patrón de fondo en negativo: líneas doradas sutiles sobre negro */
+.pat{position:relative;overflow:hidden}
+.pat::before{content:"";position:absolute;inset:0;background:var(--bg-img) center/380px repeat;filter:invert(1);opacity:.07;pointer-events:none}
+.pat>*{position:relative}
+.hero{min-height:0;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:40px;padding:40px 6vw;background:radial-gradient(ellipse at 80% 45%,#b0127f 0%,#5c0a47 38%,#22031b 75%)}
+.hero .txt{max-width:620px}
+.poster{justify-self:center;width:min(100%,400px);height:auto;aspect-ratio:1000/1023;object-fit:contain;display:block;border:1px solid var(--gold);padding:7px;background:#7a0a55;box-shadow:0 0 0 1px rgba(232,201,138,.25),0 30px 70px rgba(0,0,0,.55),0 0 90px rgba(209,26,138,.45)}
+
+.eyebrow{font-size:.75rem;letter-spacing:.35em;text-transform:uppercase;color:var(--lilac)}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,6vw,5rem);line-height:1.08;margin:18px 0 18px;max-width:9em}
+.hero .tag{font-family:var(--serif);font-style:italic;font-size:1.35rem;color:var(--gold);margin:0}
+.btn{display:inline-block;border:1px solid var(--gold);color:var(--gold);padding:15px 38px;font-size:.78rem;letter-spacing:.25em;text-transform:uppercase;background:none;cursor:pointer;font-family:inherit;transition:all .25s}
+.btn:hover{background:var(--gold);color:var(--bg)}
+section.cols{padding:40px 6vw 60px}
+h2.t{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4vw,3rem);text-align:center;margin:0 0 12px}
+.sub{text-align:center;color:var(--muted);margin:0 0 54px;letter-spacing:.05em}
+.rule{width:60px;height:1px;background:var(--gold);margin:0 auto 22px}
+.colgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;max-width:1250px;margin:0 auto}
+.col{display:flex;flex-direction:column;justify-content:flex-end;min-height:120px;padding:20px 24px;border:1px solid var(--line);background:linear-gradient(180deg,#4a0c39,#22031b);transition:border-color .3s,transform .3s}
+.col:hover{border-color:var(--gold);transform:translateY(-5px);box-shadow:0 18px 40px rgba(209,26,138,.3)}
+.col h3{font-family:var(--serif);font-weight:400;font-size:1.8rem;margin:0 0 10px;color:var(--gold)}
+.col .n{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.col .ver{font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;border-bottom:1px solid var(--gold);align-self:flex-start;padding-bottom:4px}
+.banner{padding:48px 6vw 44px;text-align:center;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#6b0b4f,#22031b)}
+.banner h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.4rem,6vw,4.2rem);margin:14px 0 0}
+.back{display:inline-block;border:1px solid var(--gold);color:var(--gold);padding:10px 22px;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;transition:all .25s}
+.back:hover{background:var(--gold);color:var(--bg)}
+.tools{display:flex;justify-content:space-between;align-items:center;max-width:1250px;margin:0 auto;padding:30px 6vw 10px}
+.tools span{color:var(--muted);font-size:.85rem}
+.marcas{display:flex;flex-wrap:wrap;gap:10px;max-width:1250px;margin:0 auto;padding:6px 6vw 8px}
+.mb{display:inline-flex;align-items:center;justify-content:center;height:38px;min-width:64px;padding:0 16px;border:1px solid var(--line);background:none;color:var(--gold);font:inherit;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .25s}
+.mb:hover{border-color:var(--gold)}
+.mb.on{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.mb.txt.on{background:var(--gold);color:var(--bg)}
+.mb.lg{background:#fff;padding:5px 12px}
+.mb img{height:24px;max-width:84px;width:auto;object-fit:contain;display:block}
+@media(max-width:640px){.marcas{padding:6px 5vw 8px;gap:8px}.mb{height:34px;min-width:56px;padding:0 12px;font-size:.62rem}.mb.lg{padding:4px 10px}.mb img{height:20px;max-width:70px}.banner{padding:36px 5vw 34px}}
+select{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:11px 16px;font-family:inherit;font-size:.85rem;letter-spacing:.05em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:26px;max-width:1250px;margin:0 auto;padding:20px 6vw 90px}
+.card{background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;transition:border-color .3s}
+.card:hover{border-color:var(--gold);box-shadow:0 14px 34px rgba(209,26,138,.28)}
+.img{position:relative;height:270px;background:#fff8fb;cursor:zoom-in;overflow:hidden}
+.img img{width:100%;height:100%;object-fit:contain;transition:transform .4s}
+.img:hover img{transform:scale(1.05)}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border:none;border-radius:50%;background:rgba(34,3,27,.85);color:var(--gold);font-size:20px;cursor:pointer;opacity:0;transition:opacity .2s}
+.prev{left:8px}.next{right:8px}.img:hover .nav{opacity:1}
+@media(hover:none){.nav{opacity:1}}
+.dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:5px;pointer-events:none}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.25)}.dots i.on{background:var(--gold)}
+.info{padding:22px;display:flex;flex-direction:column;flex:1}
+.info .m{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold)}
+.info h3{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:6px 0 10px}
+.info p{margin:0 0 20px;color:var(--muted);font-size:.88rem;line-height:1.55;white-space:pre-line;flex:1}
+.wa{display:block;text-align:center;border:1px solid var(--gold);color:var(--gold);padding:12px;font-size:.73rem;letter-spacing:.2em;text-transform:uppercase;transition:all .25s}
+.wa:hover{background:var(--gold);color:var(--bg)}
+.vacio{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 0}
+footer{border-top:1px solid var(--line);padding:50px 6vw;text-align:center;color:var(--muted);font-size:.8rem;letter-spacing:.1em}
+footer .logo{font-size:1.3rem;display:inline-block;margin-bottom:4px}
+footer .sl{display:block;font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--gold);letter-spacing:.04em;margin-bottom:16px}
+#modal{position:fixed;inset:0;z-index:100;background:rgba(20,2,15,.94);display:none;justify-content:center;align-items:center}
+#modal img{max-width:90%;max-height:88%;object-fit:contain}
+#modal button{position:absolute;background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:26px;cursor:pointer}
+#mx{top:22px;right:26px}#mp{left:20px;top:50%}#mn{right:20px;top:50%}
+@media(max-width:640px){header{padding:14px 5vw}.logo{font-size:1.3rem}nav a{margin-left:16px;font-size:.68rem}.hero{grid-template-columns:1fr;gap:32px;min-height:0;padding:44px 5vw 52px}.poster{width:min(86%,340px)}section.cols{padding:28px 5vw 48px}.colgrid{grid-template-columns:1fr 1fr;gap:12px}.col{padding:16px;min-height:96px}.col h3{font-size:1.4rem}.tools{padding:22px 5vw 6px}.grid{padding:16px 5vw 60px}}
+.hero.solo{grid-template-columns:1fr;justify-items:center;text-align:center;padding:64px 6vw}.hero.solo h1{margin-left:auto;margin-right:auto}
+.pie{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 0 16px}.cod{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}.pr{font-family:var(--serif);font-size:1.45rem;color:var(--gold)}
+</style>
+</head>
+<body>
+<header>
+  <a href="#/" class="logo">MARION</a>
+  <nav><a href="#/">Inicio</a><a id="navWa" href="#" target="_blank" rel="noopener">Contacto</a></nav>
+</header>
+
+<main id="home">
+  <div class="hero solo pat" id="heroPat">
+    <div class="txt"><div class="eyebrow">Relojes · Carteras · Billeteras · Lentes</div>
+    <h1>Elegancia en cada detalle</h1>
+    <p class="tag">MarionShop</p></div>
+  </div>
+  <section class="cols" id="colecciones">
+    <div class="colgrid" id="colgrid"></div>
+  </section>
+</main>
+
+<main id="categoria" hidden>
+  <div class="banner pat" id="banner">
+    <a class="back" href="#/">← Volver a colecciones</a>
+    <h1 id="catTitulo"></h1>
+  </div>
+  <div class="tools"><span id="cantidad"></span></div>
+  <div class="marcas" id="marcas"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer><span class="logo">MARION</span><span class="sl">MarionShop</span>Consultas por WhatsApp</footer>
+
+<div id="modal"><button id="mx">&times;</button><button id="mp">‹</button><img id="mi" alt=""><button id="mn">›</button></div>
+
+<script>
+(() => {
+  const WA = "5491159828985"; // ⚠️ cambiar si MarionShop atiende con otro WhatsApp
+  const BASE = "https://glamshop.com.ar/"; // catálogo, fotos y logos se leen de Glam
+  const IMG = BASE + "img/";
+  const fmtPrecio = v => { const t = String(v ?? "").trim(); return !t ? "" : /^\d+(\.\d+)?$/.test(t) ? "$ " + Number(t).toLocaleString("es-AR") : t; };
+  const NOMBRES = {relojes:"Relojes",carteras:"Carteras",billeteras:"Billeteras",lentes:"Lentes",gadgets:"Gadgets"};
+  const FONDOS = {relojes:"fondo.jpg",carteras:"Fondo Carteras.png",billeteras:"Fondo_Billeteras.png",lentes:"Fondo Lentes.png",gadgets:"Fondo Gadgets.png",home:"Fondo Varios.png"};
+  const PRINCIPALES = ["relojes","carteras","billeteras","lentes"];
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+  const nombreCat = c => NOMBRES[c] || cap(c);
+  const cat = p => (p.categoria || "").toLowerCase();
+  const marcaDe = p => (p.marca && String(p.marca).trim()) || String(p.nombre || "").trim().split(/\s+/)[0] || "";
+  const modeloDe = p => { const n = String(p.nombre || "").trim(), m = marcaDe(p); return m && n.toLowerCase().startsWith(m.toLowerCase()) ? n.slice(m.length).trim() : n; };
+  const fondo = c => `url('${encodeURI(BASE + (FONDOS[c] || FONDOS.home))}')`;
+
+  let productos = [], datos = {}, logos = {}, actual = "home", filtroMarca = "todas";
+  $("navWa").href = `https://wa.me/${WA}?text=${encodeURIComponent("Hola! Quisiera hacer una consulta.")}`;
+  $("heroPat").style.setProperty("--bg-img", fondo("home"));
+
+  function pintarColecciones() {
+    const extras = [...new Set(productos.map(cat).filter(c => c && !PRINCIPALES.includes(c)))].sort();
+    $("colgrid").innerHTML = [...PRINCIPALES, ...extras].map(c => {
+      return `<a class="col pat" href="#/${esc(c)}" style="--bg-img:${fondo(c)}"><h3>${esc(nombreCat(c))}</h3><span class="ver">Ver colección</span></a>`;
+    }).join("");
+  }
+
+  const slug = m => String(m).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  let marcasActuales = [];
+
+  // Filtro por marca: logo si existe en marcas.json, si no el nombre en texto
+  function pintarMarcas(marcas = marcasActuales) {
+    marcasActuales = marcas;
+    const cont = $("marcas");
+    cont.hidden = marcas.length < 2;
+    cont.innerHTML = "";
+    const boton = (clave, nombre) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.dataset.m = clave; b.title = nombre;
+      b.className = "mb txt" + (filtroMarca === clave ? " on" : "");
+      const archivo = clave !== "todas" && logos[slug(nombre)];
+      const texto = () => { b.className = "mb txt" + (filtroMarca === clave ? " on" : ""); b.textContent = clave === "todas" ? "Todas" : nombre; };
+      if (archivo) {
+        const im = new Image();
+        im.alt = nombre; im.src = IMG + encodeURI(archivo);
+        im.onerror = texto;
+        b.className = "mb lg" + (filtroMarca === clave ? " on" : "");
+        b.appendChild(im);
+      } else texto();
+      b.onclick = () => { filtroMarca = clave; cont.querySelectorAll(".mb").forEach(x => x.classList.toggle("on", x.dataset.m === clave)); pintarProductos(); };
+      return b;
+    };
+    cont.appendChild(boton("todas", "Todas"));
+    marcas.forEach(m => cont.appendChild(boton(m.toLowerCase(), m)));
+  }
+
+  function pintarCategoria() {
+    $("catTitulo").textContent = nombreCat(actual);
+    document.title = nombreCat(actual) + " | MarionShop";
+    $("banner").style.setProperty("--bg-img", fondo(actual));
+    const vistas = new Map();
+    productos.filter(p => cat(p) === actual).map(marcaDe).filter(Boolean).forEach(m => { if (!vistas.has(m.toLowerCase())) vistas.set(m.toLowerCase(), m); });
+    const marcas = [...vistas.values()].sort((a, b) => a.localeCompare(b, "es", {sensitivity:"base"}));
+    pintarMarcas(marcas);
+    pintarProductos();
+  }
+
+  function pintarProductos() {
+    const o = {sensitivity:"base", numeric:true};
+    const lista = productos.filter(p => cat(p) === actual && p.imagen && (filtroMarca === "todas" || marcaDe(p).toLowerCase() === filtroMarca))
+      .sort((a, b) => marcaDe(a).localeCompare(marcaDe(b), "es", o) || String(a.nombre).localeCompare(String(b.nombre), "es", o));
+    $("cantidad").textContent = lista.length ? `${lista.length} ${lista.length === 1 ? "pieza" : "piezas"}` : "";
+    const grid = $("grid");
+    grid.innerHTML = lista.length ? "" : `<div class="vacio">Próximamente nuevas piezas en esta colección.</div>`;
+    lista.forEach(p => {
+      const fotos = (Array.isArray(p.imagenes) && p.imagenes.length ? p.imagenes : [p.imagen]).map(f => String(f).trim()).filter(Boolean);
+      const nombre = String(p.nombre || "Producto").trim(), m = marcaDe(p), mod = m ? modeloDe(p) : "";
+      const url = IMG + fotos[0];
+      const dm = datos[p.id || p.imagen] || {}, cod = String(p.codigo || "").trim(), pr = fmtPrecio(dm.precio);
+      const msg = encodeURIComponent(`Hola! Me interesa este producto:\n\n*${nombre}*\n${cod ? "Código: " + cod + "\n" : ""}${pr ? "Precio: " + pr + "\n" : ""}Foto: ${url}`);
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<div class="img"><img src="${IMG}${esc(fotos[0])}" alt="${esc(nombre)}">${fotos.length > 1 ? `<button class="nav prev" type="button">‹</button><button class="nav next" type="button">›</button><div class="dots">${fotos.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}</div>
+      <div class="info"><span class="m">${esc(m || nombre)}</span>${mod ? `<h3>${esc(mod)}</h3>` : `<h3></h3>`}<p>${esc(p.descripcion)}</p><div class="pie"><span class="cod">${cod ? "Cód. " + esc(cod) : ""}</span><span class="pr">${esc(pr || "Consultar")}</span></div><a class="wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${msg}">Consultar por WhatsApp</a></div>`;
+      let i = 0;
+      const img = card.querySelector("img"), pts = card.querySelectorAll(".dots i");
+      img.onerror = () => { if (!i) card.remove(); };
+      const ir = d => { i = (i + d + fotos.length) % fotos.length; img.src = IMG + fotos[i]; pts.forEach((x, k) => x.classList.toggle("on", k === i)); };
+      const pv = card.querySelector(".prev"), nx = card.querySelector(".next");
+      if (pv) { pv.onclick = e => { e.stopPropagation(); ir(-1); }; nx.onclick = e => { e.stopPropagation(); ir(1); }; }
+      card.querySelector(".img").onclick = () => abrir(fotos.map(f => IMG + f), i);
+      grid.appendChild(card);
+    });
+  }
+
+  function render() {
+    actual = (location.hash.replace(/^#\/?/, "") || "home").toLowerCase();
+    const home = actual === "home";
+    $("home").hidden = !home; $("categoria").hidden = home;
+    filtroMarca = "todas";
+    if (home) { document.title = "MarionShop | Relojes, Carteras, Billeteras y Lentes"; pintarColecciones(); }
+    else pintarCategoria();
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", render);
+
+  // Visor de fotos
+  let gal = [], gi = 0;
+  const modal = $("modal");
+  const mostrar = () => { $("mi").src = gal[gi]; $("mp").style.display = $("mn").style.display = gal.length > 1 ? "block" : "none"; };
+  function abrir(f, i) { gal = f; gi = i; modal.style.display = "flex"; mostrar(); }
+  const mover = d => { gi = (gi + d + gal.length) % gal.length; mostrar(); };
+  $("mp").onclick = e => { e.stopPropagation(); mover(-1); };
+  $("mn").onclick = e => { e.stopPropagation(); mover(1); };
+  $("mx").onclick = () => modal.style.display = "none";
+  modal.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
+  document.addEventListener("keydown", e => {
+    if (modal.style.display !== "flex") return;
+    if (e.key === "Escape") modal.style.display = "none";
+    if (e.key === "ArrowLeft") mover(-1);
+    if (e.key === "ArrowRight") mover(1);
+  });
+
+  render();
+  fetch(BASE + "marcas.json?t=" + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(l => { logos = l || {}; if (actual !== "home") pintarMarcas(); });
+  Promise.all([fetch(BASE + "products.json?t=" + Date.now()).then(r => r.json()), fetch("./marion.json?t=" + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({}))]).then(([d, m]) => { productos = d; datos = m || {}; render(); }).catch(() => {
+    $("colgrid").insertAdjacentHTML("afterend", `<p class="sub" style="margin-top:30px">No se pudo cargar el catálogo. Intentá de nuevo en un momento.</p>`);
+  });
+})();
+</script>
+</body>
+</html>
