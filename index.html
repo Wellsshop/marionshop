@@ -121,7 +121,7 @@ footer .sl{display:block;font-family:var(--serif);font-style:italic;font-size:1r
 
 <script>
 (() => {
-  const WA = "5491165017773"; // ⚠️ cambiar si MarionShop atiende con otro WhatsApp
+  const WA = "5491165017773"; // WhatsApp de MarionShop
   const BASE = "https://glamshop.com.ar/"; // catálogo, fotos y logos se leen de Glam
   const IMG = BASE + "img/";
   const fmtPrecio = v => { const t = String(v ?? "").trim(); return !t ? "" : /^\d+(\.\d+)?$/.test(t) ? "$ " + Number(t).toLocaleString("es-AR") : t; };
@@ -200,7 +200,7 @@ footer .sl{display:block;font-family:var(--serif);font-style:italic;font-size:1r
       const nombre = String(p.nombre || "Producto").trim(), m = marcaDe(p), mod = m ? modeloDe(p) : "";
       const url = IMG + fotos[0];
       const dm = datos[p.id || p.imagen] || {}, cod = String(p.codigo || "").trim(), pr = fmtPrecio(dm.precio);
-      const msg = encodeURIComponent(`Hola! Me interesa este producto:\n\n*${nombre}*\n${cod ? "Código: " + cod + "\n" : ""}${pr ? "Precio: " + pr + "\n" : ""}Foto: ${url}`);
+      const msg = encodeURIComponent(`Hola! Me interesa este producto:\n\n*${nombre}*\n${cod ? "Código: " + cod + "\n" : ""}${pr ? "Precio: " + pr + "\n" : ""}\n${location.origin + location.pathname}#/${cat(p)}`.trim());
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `<div class="img"><img src="${IMG}${esc(fotos[0])}" alt="${esc(nombre)}">${fotos.length > 1 ? `<button class="nav prev" type="button">‹</button><button class="nav next" type="button">›</button><div class="dots">${fotos.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}</div>
