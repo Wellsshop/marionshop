@@ -84,6 +84,8 @@ footer .sl{display:block;font-family:var(--serif);font-style:italic;font-size:1r
 #mx{top:22px;right:26px}#mp{left:20px;top:50%}#mn{right:20px;top:50%}
 @media(max-width:640px){header{padding:14px 5vw}.logo{font-size:1.3rem}nav a{margin-left:16px;font-size:.68rem}.hero{grid-template-columns:1fr;gap:32px;min-height:0;padding:44px 5vw 52px}.poster{width:min(86%,340px)}section.cols{padding:28px 5vw 48px}.colgrid{grid-template-columns:1fr 1fr;gap:12px}.col{padding:16px;min-height:96px}.col h3{font-size:1.4rem}.tools{padding:22px 5vw 6px}.grid{padding:16px 5vw 60px}}
 .hero.solo{grid-template-columns:1fr;justify-items:center;text-align:center;padding:64px 6vw}.hero.solo h1{margin-left:auto;margin-right:auto}
+.mp{display:block;width:100%;margin-top:10px;text-align:center;border:none;background:#009ee3;color:#fff;padding:13px;font:inherit;font-size:.73rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .25s}.mp:hover{background:#0087c3}.mp:disabled{opacity:.6;cursor:wait}.aviso{padding:14px 6vw;text-align:center;font-size:.9rem;border-bottom:1px solid var(--line);background:#32082a;color:var(--text)}.aviso.ok{border-bottom-color:#5ac08a}.aviso.err{border-bottom-color:#e0646e}
+.precios{margin:0 0 14px;border-top:1px solid var(--line);padding-top:8px}.pl{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.pl .t{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);line-height:1.3}.pl .t em{font-style:normal;color:var(--gold);margin-left:4px;white-space:nowrap}.pl .v{font-family:var(--serif);white-space:nowrap}.pl.ef .v{font-size:1.3rem;color:var(--gold)}.pl.mpl{margin-top:2px}.pl.mpl .v{font-size:.95rem;color:var(--text);opacity:.85}.pl.mpl .t{color:var(--muted)}
 .pie{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 0 16px}.cod{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}.pr{font-family:var(--serif);font-size:1.45rem;color:var(--gold)}
 </style>
 </head>
@@ -92,6 +94,8 @@ footer .sl{display:block;font-family:var(--serif);font-style:italic;font-size:1r
   <a href="#/" class="logo">MARION</a>
   <nav><a href="#/">Inicio</a><a id="navWa" href="#" target="_blank" rel="noopener">Contacto</a></nav>
 </header>
+
+<div id="aviso" class="aviso" hidden></div>
 
 <main id="home">
   <div class="hero pat" id="heroPat">
@@ -122,8 +126,10 @@ footer .sl{display:block;font-family:var(--serif);font-style:italic;font-size:1r
 <script>
 (() => {
   const WA = "5491165017773"; // WhatsApp de MarionShop
+  const WORKER = "https://TU-WORKER.workers.dev"; // URL del Worker de Cloudflare (el mismo del panel); con esto se activa el botón de Mercado Pago
   const BASE = "https://glamshop.com.ar/"; // catálogo, fotos y logos se leen de Glam
   const IMG = BASE + "img/";
+  const RECARGO_MP = 0.20; // solo para mostrar; el cobro real lo calcula el Worker
   const fmtPrecio = v => { const t = String(v ?? "").trim(); return !t ? "" : /^\d+(\.\d+)?$/.test(t) ? "$ " + Number(t).toLocaleString("es-AR") : t; };
   const NOMBRES = {relojes:"Relojes",carteras:"Carteras",billeteras:"Billeteras",lentes:"Lentes",gadgets:"Gadgets"};
   const FONDOS = {relojes:"fondo.jpg",carteras:"Fondo Carteras.png",billeteras:"Fondo_Billeteras.png",lentes:"Fondo Lentes.png",gadgets:"Fondo Gadgets.png",home:"Fondo Varios.png"};
@@ -200,15 +206,31 @@ footer .sl{display:block;font-family:var(--serif);font-style:italic;font-size:1r
       const nombre = String(p.nombre || "Producto").trim(), m = marcaDe(p), mod = m ? modeloDe(p) : "";
       const url = IMG + fotos[0];
       const dm = datos[p.id || p.imagen] || {}, cod = String(p.codigo || "").trim(), pr = fmtPrecio(dm.precio);
-      const msg = encodeURIComponent(`Hola! Me interesa este producto:\n\n*${nombre}*\n${cod ? "Código: " + cod + "\n" : ""}${pr ? "Precio: " + pr + "\n" : ""}\n${location.origin + location.pathname}#/${cat(p)}`.trim());
+      const msg = encodeURIComponent(`Hola! Me interesa este producto:\n\n*${nombre}*\n${cod ? "Código: " + cod + "\n" : ""}${pr ? "Precio en efectivo o transferencia: " + pr + "\n" : ""}\n${location.origin + location.pathname}#/${cat(p)}`.trim());
+      const esNum = /^\d+(\.\d+)?$/.test(String(dm.precio ?? "").trim());
+      const prMP = esNum ? fmtPrecio(Math.round(Number(dm.precio) * (1 + RECARGO_MP))) : "";
+      const puedePagar = !WORKER.includes("TU-WORKER") && esNum;
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `<div class="img"><img src="${IMG}${esc(fotos[0])}" alt="${esc(nombre)}">${fotos.length > 1 ? `<button class="nav prev" type="button">‹</button><button class="nav next" type="button">›</button><div class="dots">${fotos.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}</div>
-      <div class="info"><span class="m">${esc(m || nombre)}</span>${mod ? `<h3>${esc(mod)}</h3>` : `<h3></h3>`}<p>${esc(p.descripcion)}</p><div class="pie"><span class="cod">${cod ? "Cód. " + esc(cod) : ""}</span><span class="pr">${esc(pr || "Consultar")}</span></div><a class="wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${msg}">Consultar por WhatsApp</a></div>`;
+      <div class="info"><span class="m">${esc(m || nombre)}</span>${mod ? `<h3>${esc(mod)}</h3>` : `<h3></h3>`}<p>${esc(p.descripcion)}</p>${prMP ? `${cod ? `<div class="cod" style="margin:0 0 6px">Cód. ${esc(cod)}</div>` : ""}<div class="precios"><div class="pl ef"><span class="t">Efectivo / Transferencia<em>20% dto.</em></span><span class="v">${esc(pr)}</span></div><div class="pl mpl"><span class="t">Mercado Pago<em>Recargo 20%</em></span><span class="v">${esc(prMP)}</span></div></div>` : `<div class="pie"><span class="cod">${cod ? "Cód. " + esc(cod) : ""}</span><span class="pr">${esc(pr || "Consultar")}</span></div>`}<a class="wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${msg}">Consultar por WhatsApp</a>${puedePagar ? `<button class="mp" type="button">Pagar con Mercado Pago</button>` : ""}</div>`;
       let i = 0;
       const img = card.querySelector("img"), pts = card.querySelectorAll(".dots i");
       img.onerror = () => { if (!i) card.remove(); };
       const ir = d => { i = (i + d + fotos.length) % fotos.length; img.src = IMG + fotos[i]; pts.forEach((x, k) => x.classList.toggle("on", k === i)); };
+      const mp = card.querySelector(".mp");
+      if (mp) mp.onclick = async () => {
+        mp.disabled = true; mp.textContent = "Redirigiendo a Mercado Pago…";
+        try {
+          const r = await fetch(WORKER + "/pagar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: p.id || p.imagen }) });
+          const d = await r.json();
+          if (!r.ok || !d.url) throw new Error(d.error || "Error");
+          location.href = d.url;
+        } catch (e) {
+          mp.disabled = false; mp.textContent = "Pagar con Mercado Pago";
+          avisar("No pudimos iniciar el pago. Probá de nuevo o consultanos por WhatsApp.", true);
+        }
+      };
       const pv = card.querySelector(".prev"), nx = card.querySelector(".next");
       if (pv) { pv.onclick = e => { e.stopPropagation(); ir(-1); }; nx.onclick = e => { e.stopPropagation(); ir(1); }; }
       card.querySelector(".img").onclick = () => abrir(fotos.map(f => IMG + f), i);
@@ -227,29 +249,7 @@ footer .sl{display:block;font-family:var(--serif);font-style:italic;font-size:1r
   }
   window.addEventListener("hashchange", render);
 
-  // Visor de fotos
-  let gal = [], gi = 0;
-  const modal = $("modal");
-  const mostrar = () => { $("mi").src = gal[gi]; $("mp").style.display = $("mn").style.display = gal.length > 1 ? "block" : "none"; };
-  function abrir(f, i) { gal = f; gi = i; modal.style.display = "flex"; mostrar(); }
-  const mover = d => { gi = (gi + d + gal.length) % gal.length; mostrar(); };
-  $("mp").onclick = e => { e.stopPropagation(); mover(-1); };
-  $("mn").onclick = e => { e.stopPropagation(); mover(1); };
-  $("mx").onclick = () => modal.style.display = "none";
-  modal.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
-  document.addEventListener("keydown", e => {
-    if (modal.style.display !== "flex") return;
-    if (e.key === "Escape") modal.style.display = "none";
-    if (e.key === "ArrowLeft") mover(-1);
-    if (e.key === "ArrowRight") mover(1);
-  });
-
-  render();
-  fetch(BASE + "marcas.json?t=" + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(l => { logos = l || {}; if (actual !== "home") pintarMarcas(); });
-  Promise.all([fetch(BASE + "products.json?t=" + Date.now()).then(r => r.json()), fetch("./marion.json?t=" + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({}))]).then(([d, m]) => { productos = d; datos = m || {}; render(); }).catch(() => {
-    $("colgrid").insertAdjacentHTML("afterend", `<p class="sub" style="margin-top:30px">No se pudo cargar el catálogo. Intentá de nuevo en un momento.</p>`);
-  });
-})();
-</script>
-</body>
-</html>
+  // Avisos de pago (vuelta desde Mercado Pago)
+  function avisar(t, err) { const a = $("aviso"); a.textContent = t; a.className = "aviso " + (err ? "err" : "ok"); a.hidden = false; window.scrollTo(0, 0); }
+  const pago = new URLSearchParams(location.search).get("pago");
+  if (pago) {
