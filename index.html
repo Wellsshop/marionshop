@@ -253,3 +253,34 @@ footer .sl{display:block;font-family:var(--serif);font-style:italic;font-size:1r
   function avisar(t, err) { const a = $("aviso"); a.textContent = t; a.className = "aviso " + (err ? "err" : "ok"); a.hidden = false; window.scrollTo(0, 0); }
   const pago = new URLSearchParams(location.search).get("pago");
   if (pago) {
+    const T = { ok: ["¡Pago recibido! Gracias por tu compra, te contactaremos para coordinar la entrega.", false], pendiente: ["Tu pago está pendiente de acreditación. Te avisaremos cuando se confirme.", false], error: ["El pago no se pudo completar. Podés intentar de nuevo o consultarnos por WhatsApp.", true] }[pago];
+    if (T) avisar(T[0], T[1]);
+    history.replaceState(null, "", location.pathname + location.hash);
+  }
+
+  // Visor de fotos
+  let gal = [], gi = 0;
+  const modal = $("modal");
+  const mostrar = () => { $("mi").src = gal[gi]; $("mp").style.display = $("mn").style.display = gal.length > 1 ? "block" : "none"; };
+  function abrir(f, i) { gal = f; gi = i; modal.style.display = "flex"; mostrar(); }
+  const mover = d => { gi = (gi + d + gal.length) % gal.length; mostrar(); };
+  $("mp").onclick = e => { e.stopPropagation(); mover(-1); };
+  $("mn").onclick = e => { e.stopPropagation(); mover(1); };
+  $("mx").onclick = () => modal.style.display = "none";
+  modal.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
+  document.addEventListener("keydown", e => {
+    if (modal.style.display !== "flex") return;
+    if (e.key === "Escape") modal.style.display = "none";
+    if (e.key === "ArrowLeft") mover(-1);
+    if (e.key === "ArrowRight") mover(1);
+  });
+
+  render();
+  fetch(BASE + "marcas.json?t=" + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(l => { logos = l || {}; if (actual !== "home") pintarMarcas(); });
+  Promise.all([fetch(BASE + "products.json?t=" + Date.now()).then(r => r.json()), fetch("./marion.json?t=" + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({}))]).then(([d, m]) => { productos = d; datos = m || {}; render(); }).catch(() => {
+    $("colgrid").insertAdjacentHTML("afterend", `<p class="sub" style="margin-top:30px">No se pudo cargar el catálogo. Intentá de nuevo en un momento.</p>`);
+  });
+})();
+</script>
+</body>
+</html>
